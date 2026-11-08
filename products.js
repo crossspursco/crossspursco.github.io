@@ -1,11 +1,11 @@
 // Cross Spurs Co. — product + Square checkout link data, shared by index.html and checkout.html.
-// SHIP links: $25 + $6 shipping (Square collects the address). PICKUP links: $25, local pickup in McAllen or Edinburg, TX.
+// SHIP links: $25 + $6 shipping (Square collects the address). PICKUP links: $25, local pickup in McAllen, Edinburg or Mission, TX.
 // Never edit a Square link's shipping fee in Square; recreate the link and paste the new URL here.
 window.PRODUCTS = {
   deadline: "2026-11-30T23:59:00-06:00",   // Nov 30, 11:59 PM Central
   price: 25,
   shippingFee: 6,
-  pickupPlace: "McAllen or Edinburg, TX",
+  pickupPlace: "McAllen, Edinburg or Mission, TX",
   limitPerShirt: 60,                        // max preorders per shirt (all sizes combined)
   apiUrl: "https://crossspurs-checkout.aldovjr03.workers.dev",                               // checkout helper (Cloudflare Worker) address. Checkout needs this set.
   // To close a shirt: set soldOut: true on it below and publish. The card and checkout lock.
