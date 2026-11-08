@@ -129,6 +129,8 @@
 </footer>
 
 <script>
+  // Order is paid: empty the cart in this browser.
+  try { localStorage.removeItem("csc_cart_v1"); } catch (e) {}
   // Share: uses the phone's share sheet when available, otherwise copies the shop link.
   (function(){
     var btn = document.getElementById("share");

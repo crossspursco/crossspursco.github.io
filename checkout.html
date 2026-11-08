@@ -3,44 +3,57 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Checkout | Cross Spurs Co.</title>
+<title>Cart &amp; Checkout | Cross Spurs Co.</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#14110e; --ink-2:#1c1814; --line:#352e27;
+    --ink:#14110e; --line:#352e27;
     --cream:#f2ece1; --cream-2:#e8dfd0; --cream-line:#d6cab6; --paper:#fbf8f3;
-    --text:#2a231d; --muted:#6b5f50;
+    --text:#2a231d; --muted:#6b5f50; --err:#9b2c1f;
     --saddle:#7a4a2a; --saddle-hi:#94603a; --tan:#b07d52;
     --slab:"Zilla Slab", Rockwell, Georgia, serif;
     --sans:"Inter", system-ui, -apple-system, Segoe UI, sans-serif;
-    --mock:url("images/mockups.webp");
   }
   *{box-sizing:border-box}
   [hidden]{display:none!important}
   body{margin:0;background:var(--paper);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
   a{color:inherit}
+  button{font:inherit}
 
   header{background:var(--cream);border-bottom:1px solid var(--cream-line)}
   .bar{max-width:1080px;margin:0 auto;padding:0 20px;height:72px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
   .back{font-size:13px;color:var(--muted);text-decoration:none;display:inline-flex;gap:6px;align-items:center}
   .back:hover{color:var(--saddle)}
   .brand img{height:46px;width:auto;display:block}
-  .mark{display:block;width:58px;height:46px;background:url("images/mockups.jpg") -178px -37px/281px 281px no-repeat;mix-blend-mode:multiply;filter:grayscale(.15) brightness(1.18) contrast(1.9)}
   .secure-tag{justify-self:end;display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
-  .steps{max-width:1080px;margin:0 auto;padding:22px 20px 0;display:flex;gap:10px;align-items:center;font-size:12.5px;color:var(--muted)}
-  .steps b{color:var(--text);font-weight:600}
-  .steps i{font-style:normal;opacity:.5}
-
-  main{max-width:1080px;margin:0 auto;padding:22px 20px 80px;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:start}
-
+  main{max-width:1080px;margin:0 auto;padding:30px 20px 80px;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:start}
   h1{font-family:var(--slab);font-weight:700;text-transform:uppercase;letter-spacing:.02em;font-size:30px;margin:0 0 6px}
-  .sub{color:var(--muted);margin:0 0 26px}
+  .sub{color:var(--muted);margin:0 0 8px}
   h2{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:30px 0 12px}
 
+  /* cart lines */
+  .cart{display:grid;gap:12px}
+  .cline{display:grid;grid-template-columns:72px 1fr auto;gap:16px;align-items:center;padding:14px;background:#fff;border:1px solid var(--cream-line)}
+  .thumb{width:72px;height:72px;background-image:url("images/mockups.jpg");background-size:200% 200%;border:1px solid var(--cream-line)}
+  .cname{font-weight:600}
+  .cmeta{font-size:13px;color:var(--muted)}
+  .cline.bad{border-color:var(--err)}
+  .cline .warn{font-size:12.5px;color:var(--err);margin-top:2px}
+  .cright{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+  .cprice{font-weight:600}
+  .stepper{display:inline-flex;align-items:center;border:1px solid var(--cream-line);background:#fff}
+  .stepper button{all:unset;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--saddle)}
+  .stepper button:focus-visible{outline:2px solid var(--saddle)}
+  .stepper span{min-width:26px;text-align:center;font-weight:600;font-size:14px}
+  .remove{all:unset;cursor:pointer;font-size:12px;color:var(--muted);text-decoration:underline}
+  .empty{padding:30px;background:#fff;border:1px solid var(--cream-line);text-align:center}
+  .empty a{display:inline-block;margin-top:14px}
+
+  /* delivery */
   .options{display:grid;gap:12px}
   .opt{position:relative;display:grid;grid-template-columns:22px 1fr auto;gap:14px;align-items:start;padding:18px 20px;background:#fff;border:1px solid var(--cream-line);cursor:pointer;transition:border-color .15s,box-shadow .15s}
   .opt:hover{border-color:#bfae94}
@@ -52,17 +65,21 @@
   .opt:has(input:checked) .radio:after{transform:scale(1)}
   .opt:has(input:focus-visible){outline:2px solid var(--saddle);outline-offset:2px}
   .opt-title{font-weight:600;font-size:15.5px}
-  .opt-desc{color:var(--muted);font-size:13.5px;margin-top:3px}
-  .opt-price{font-weight:600;font-size:15px}
+  .opt-desc{display:block;color:var(--muted);font-size:13.5px;margin-top:3px}
+  .opt-price{font-weight:600}
 
-  .size-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  select{appearance:none;-webkit-appearance:none;font:inherit;font-weight:600;padding:12px 40px 12px 16px;border:1px solid var(--cream-line);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a4a2a' stroke-width='1.6' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center;color:var(--text);cursor:pointer;min-width:120px}
-  select:focus-visible{outline:2px solid var(--saddle);outline-offset:2px}
-  .fit{font-size:13px;color:var(--muted)}
+  /* details */
+  .fields{display:grid;gap:12px}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+  .field input{width:100%;font:inherit;padding:13px 14px;border:1px solid var(--cream-line);background:#fff;color:var(--text)}
+  .field input:focus{outline:2px solid var(--saddle);outline-offset:0;border-color:var(--saddle)}
+  .field .hint{font-size:12.5px;color:var(--muted);margin-top:5px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
-  .pay{display:block;width:100%;margin-top:30px;padding:18px 24px;background:var(--saddle);color:var(--cream);border:1px solid var(--saddle);font:inherit;font-weight:600;font-size:14px;letter-spacing:.14em;text-transform:uppercase;text-align:center;text-decoration:none;cursor:pointer;transition:background .2s}
+  .pay{display:block;width:100%;margin-top:30px;padding:18px 24px;background:var(--saddle);color:var(--cream);border:1px solid var(--saddle);font-weight:600;font-size:14px;letter-spacing:.14em;text-transform:uppercase;text-align:center;cursor:pointer;transition:background .2s}
   .pay:hover{background:var(--saddle-hi)}
-  .pay[aria-disabled="true"]{background:#c9bba6;border-color:#c9bba6;pointer-events:none}
+  .pay:disabled{background:#c9bba6;border-color:#c9bba6;cursor:not-allowed}
+  .error{margin-top:14px;padding:12px 14px;border:1px solid var(--err);color:var(--err);background:#fff;font-size:14px}
   .assure{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:13px;color:var(--muted)}
   .assure svg{flex:none;margin-top:2px}
   .methods{margin-top:10px;font-size:12.5px;color:var(--muted)}
@@ -70,12 +87,9 @@
   /* summary */
   aside{background:#fff;border:1px solid var(--cream-line);padding:26px 26px 22px;position:sticky;top:24px}
   aside h2{margin-top:0}
-  .line{display:grid;grid-template-columns:76px 1fr auto;gap:16px;align-items:center;padding-bottom:20px;border-bottom:1px solid var(--cream-line)}
-  .thumb{width:76px;height:76px;background-image:url("images/mockups.jpg");background-size:200% 200%;border:1px solid var(--cream-line);position:relative}
-  .qty{position:absolute;top:-8px;right:-8px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--cream);font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center}
-  .item-name{font-weight:600}
-  .item-meta{font-size:13px;color:var(--muted)}
-  .rows{padding:16px 0;border-bottom:1px solid var(--cream-line);display:grid;gap:8px}
+  .sline{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:4px 0}
+  .sline span:first-child{color:var(--text)}
+  .rows{padding:14px 0;margin-top:10px;border-top:1px solid var(--cream-line);border-bottom:1px solid var(--cream-line);display:grid;gap:8px}
   .row{display:flex;justify-content:space-between;font-size:14px}
   .row span:first-child{color:var(--muted)}
   .total{display:flex;justify-content:space-between;align-items:baseline;padding-top:16px}
@@ -86,23 +100,26 @@
 
   .closed{max-width:560px;margin:80px auto;text-align:center;padding:0 20px}
   .closed h1{font-size:34px}
-  .closed a{display:inline-block;margin-top:20px}
+  .btnlink{display:inline-block;margin-top:20px;padding:15px 28px;background:var(--saddle);color:var(--cream);text-decoration:none;font-weight:600;font-size:13.5px;letter-spacing:.14em;text-transform:uppercase}
 
   footer{border-top:1px solid var(--cream-line);padding:22px 20px;text-align:center;font-size:12.5px;color:var(--muted)}
 
   @media (max-width:860px){
     main{grid-template-columns:1fr;gap:28px}
-    aside{position:static;order:-1}
+    aside{position:static}
     .secure-tag span{display:none}
   }
   @media (max-width:480px){
     .bar{padding:0 16px;height:64px}
     .back span{display:none}
-    main{padding:18px 16px 60px}
-    .steps{padding:18px 16px 0}
+    main{padding:22px 16px 60px}
     aside{padding:20px 18px}
     h1{font-size:26px}
     .opt{padding:16px}
+    .two{grid-template-columns:1fr}
+    .cline{grid-template-columns:60px 1fr;row-gap:10px}
+    .thumb{width:60px;height:60px}
+    .cright{grid-column:1 / -1;flex-direction:row;justify-content:space-between;align-items:center}
   }
 </style>
 </head>
@@ -110,62 +127,80 @@
 
 <header>
   <div class="bar">
-    <a class="back" href="index.html#shop"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M9 2 4 7l5 5" stroke="currentColor" stroke-width="1.6"/></svg><span>Back to shop</span></a>
-    <a href="index.html" class="brand" aria-label="Cross Spurs Co. home"><img src="images/logo.png" alt="Cross Spurs Co." onload="this.nextElementSibling.remove()" onerror="this.remove()"><span class="mark" role="img" aria-label="Cross Spurs Co."></span></a>
+    <a class="back" href="index.html#shop"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M9 2 4 7l5 5" stroke="currentColor" stroke-width="1.6"/></svg><span>Keep shopping</span></a>
+    <a href="index.html" class="brand" aria-label="Cross Spurs Co. home"><img src="images/logo.png" alt="Cross Spurs Co."></a>
     <div class="secure-tag"><svg width="13" height="15" viewBox="0 0 14 16" fill="none" aria-hidden="true"><rect x="1" y="7" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 7V4.5a3 3 0 0 1 6 0V7" stroke="currentColor" stroke-width="1.4"/></svg><span>Secure Checkout</span></div>
   </div>
 </header>
 
 <div id="checkout">
-  <nav class="steps" aria-label="Checkout progress"><span>Shirt</span><i>›</i><b>Delivery</b><i>›</i><span>Payment</span></nav>
-
   <main>
     <section>
-      <h1>Checkout</h1>
-      <p class="sub">Choose how you'd like to get your shirt. You'll enter your details and pay on the next step.</p>
+      <h1>Your Cart</h1>
+      <p class="sub">Review your shirts, choose delivery, and add your details. You'll pay on the next step.</p>
 
-      <h2>Size</h2>
-      <div class="size-row">
-        <select id="size" aria-label="Size"></select>
-        <span class="fit" id="fit"></span>
+      <div class="cart" id="cart"></div>
+      <div class="empty" id="empty" hidden>
+        <div>Your cart is empty.</div>
+        <a class="btnlink" href="index.html#shop">Shop the Signature Tee</a>
       </div>
 
-      <h2>Delivery</h2>
-      <div class="options" role="radiogroup" aria-label="Delivery method">
-        <label class="opt">
-          <input type="radio" name="method" value="ship" checked>
-          <span class="radio" aria-hidden="true"></span>
-          <span><span class="opt-title">Shipping</span><span class="opt-desc" style="display:block">You'll enter your shipping address securely at payment.</span></span>
-          <span class="opt-price">$6.00</span>
-        </label>
-        <label class="opt">
-          <input type="radio" name="method" value="pickup">
-          <span class="radio" aria-hidden="true"></span>
-          <span><span class="opt-title">Local pickup</span><span class="opt-desc" style="display:block" id="pickup-desc"></span></span>
-          <span class="opt-price">Free</span>
-        </label>
-      </div>
+      <div id="form-area">
+        <h2>Delivery</h2>
+        <div class="options" role="radiogroup" aria-label="Delivery method">
+          <label class="opt">
+            <input type="radio" name="method" value="ship" checked>
+            <span class="radio" aria-hidden="true"></span>
+            <span><span class="opt-title">Shipping</span><span class="opt-desc">You'll enter your shipping address securely at payment.</span></span>
+            <span class="opt-price">$6.00</span>
+          </label>
+          <label class="opt">
+            <input type="radio" name="method" value="pickup">
+            <span class="radio" aria-hidden="true"></span>
+            <span><span class="opt-title">Local pickup</span><span class="opt-desc" id="pickup-desc"></span></span>
+            <span class="opt-price">Free</span>
+          </label>
+        </div>
 
-      <a class="pay" id="pay" href="#">Continue to Payment</a>
-      <div class="assure">
-        <svg width="14" height="16" viewBox="0 0 14 16" fill="none" aria-hidden="true"><rect x="1" y="7" width="12" height="8" rx="1.5" stroke="#7a4a2a" stroke-width="1.4"/><path d="M4 7V4.5a3 3 0 0 1 6 0V7" stroke="#7a4a2a" stroke-width="1.4"/></svg>
-        <span>Payment is processed securely by Square. Cross Spurs Co. never sees or stores your card details.</span>
+        <h2>Your Details</h2>
+        <div class="fields">
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" autocomplete="name" required maxlength="80" placeholder="Who this order is for">
+            <div class="hint">This is the name we'll put on your order, even if the card is in someone else's name.</div>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" autocomplete="email" required maxlength="120" placeholder="you@email.com">
+              <div class="hint">Your receipt is sent here.</div>
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" type="tel" autocomplete="tel" required maxlength="20" placeholder="(956) 555-1234">
+              <div class="hint">Only used about your order.</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="pay" id="pay" type="button">Continue to Secure Payment</button>
+        <div class="error" id="error" role="alert" hidden></div>
+        <div class="assure">
+          <svg width="14" height="16" viewBox="0 0 14 16" fill="none" aria-hidden="true"><rect x="1" y="7" width="12" height="8" rx="1.5" stroke="#7a4a2a" stroke-width="1.4"/><path d="M4 7V4.5a3 3 0 0 1 6 0V7" stroke="#7a4a2a" stroke-width="1.4"/></svg>
+          <span>Payment is processed securely by Square. Cross Spurs Co. never sees or stores your card details.</span>
+        </div>
+        <div class="methods">Card · Apple Pay · Google Pay · Cash App Pay</div>
       </div>
-      <div class="methods">Card · Apple Pay · Google Pay · Cash App Pay</div>
     </section>
 
-    <aside aria-label="Order summary">
+    <aside aria-label="Order summary" id="summary">
       <h2>Order Summary</h2>
-      <div class="line">
-        <div class="thumb" id="thumb"><span class="qty">1</span></div>
-        <div><div class="item-name" id="name"></div><div class="item-meta" id="meta"></div></div>
-        <div>$25.00</div>
-      </div>
+      <div id="slines"></div>
       <div class="rows">
-        <div class="row"><span>Subtotal</span><span>$25.00</span></div>
+        <div class="row"><span id="sub-label">Subtotal</span><span id="subtotal">$0.00</span></div>
         <div class="row"><span id="ship-label">Shipping</span><span id="ship-amt">$6.00</span></div>
       </div>
-      <div class="total"><span>Total</span><strong><small>USD</small><span id="total">$31.00</span></strong></div>
+      <div class="total"><span>Total</span><strong><small>USD</small><span id="total">$0.00</span></strong></div>
       <div class="mission-note">This first run helps fund and prepare for a mission trip to Kenya in March 2027. Thank you for being part of it.</div>
     </aside>
   </main>
@@ -174,64 +209,98 @@
 <div class="closed" id="closed" hidden>
   <h1>Preorders are closed</h1>
   <p class="sub">Thank you to everyone who supported the first run.</p>
-  <a class="pay" href="index.html" style="width:auto">Back to Cross Spurs Co.</a>
+  <a class="btnlink" href="index.html">Back to Cross Spurs Co.</a>
 </div>
 
 <footer>© 2026 Cross Spurs Co. · Questions? <a href="mailto:aldovjr03@gmail.com">aldovjr03@gmail.com</a></footer>
 
 <script src="products.js"></script>
+<script src="cart.js"></script>
 <script>
 (function(){
   const P = window.PRODUCTS;
-  const params = new URLSearchParams(location.search);
-  const key = params.get("item");
-  const item = P.items[key];
-  let size = params.get("size");
-
-  if (!item) { location.replace("index.html#shop"); return; }
-  const soldOutNow = item.soldOut || params.get("soldout") === "1";
-  if (Date.now() >= new Date(P.deadline).getTime() || soldOutNow) {
-    document.getElementById("checkout").hidden = true;
-    document.getElementById("closed").hidden = false;
-    if (soldOutNow) {
-      document.querySelector("#closed h1").textContent = `${item.name} is sold out`;
-      document.querySelector("#closed .sub").textContent = "Thank you to everyone who preordered. Every spot in the first run is claimed.";
-    }
-    return;
-  }
-  if (!P.sizes.includes(size)) size = "";
-
   const $ = id => document.getElementById(id);
   const money = n => "$" + n.toFixed(2);
 
-  // summary
-  $("name").textContent = item.name;
-  $("thumb").style.backgroundPosition = item.front;
-  $("fit").textContent = item.fit;
+  if (Date.now() >= new Date(P.deadline).getTime()) { $("checkout").hidden = true; $("closed").hidden = false; return; }
+
+  // Old single-shirt links (checkout.html?item=men&size=M) still work: add to cart, then clean the URL.
+  const params = new URLSearchParams(location.search);
+  if (P.items[params.get("item")] && P.sizes.includes(params.get("size"))) {
+    Cart.add(params.get("item"), params.get("size"), 1);
+    history.replaceState(null, "", "checkout.html");
+  }
+
   $("pickup-desc").textContent = `Pick up in ${P.pickupPlace}. We'll contact you to set a time once the run is printed.`;
+  let status = null;   // live sold-out info from the checkout helper
 
-  // size select
-  const sel = $("size");
-  sel.innerHTML = (size ? "" : `<option value="" disabled selected>Select</option>`) +
-    P.sizes.map(s => `<option value="${s}"${s === size ? " selected" : ""}>${s}</option>`).join("");
+  function render(){
+    const lines = Cart.get();
+    const empty = lines.length === 0;
+    $("empty").hidden = !empty; $("form-area").hidden = empty; $("summary").hidden = empty;
+    const cart = $("cart"); cart.innerHTML = "";
+    let count = 0;
+    lines.forEach((l, i) => {
+      const it = P.items[l.item]; if (!it) return;
+      count += l.qty;
+      const out = it.soldOut || (status && status[l.item] && status[l.item].soldOut);
+      const el = document.createElement("div");
+      el.className = "cline" + (out ? " bad" : "");
+      el.innerHTML = `
+        <div class="thumb" style="background-position:${it.front}"></div>
+        <div><div class="cname">${it.name}</div><div class="cmeta">${it.colorway} · Size ${l.size}</div>${out ? '<div class="warn">Sold out. Please remove it to continue.</div>' : ""}</div>
+        <div class="cright">
+          <div class="stepper" aria-label="Quantity"><button type="button" data-d="-1" aria-label="Decrease quantity">−</button><span>${l.qty}</span><button type="button" data-d="1" aria-label="Increase quantity">+</button></div>
+          <div class="cprice">${money(P.price * l.qty)}</div>
+          <button type="button" class="remove">Remove</button>
+        </div>`;
+      el.querySelectorAll(".stepper button").forEach(b => b.addEventListener("click", () => { Cart.setQty(i, l.qty + Number(b.dataset.d)); render(); }));
+      el.querySelector(".remove").addEventListener("click", () => { Cart.remove(i); render(); });
+      cart.appendChild(el);
+    });
 
-  const pay = $("pay");
-  function update(){
-    size = sel.value;
     const method = document.querySelector('input[name="method"]:checked').value;
-    const ship = method === "ship" ? P.shippingFee : 0;
-    $("meta").textContent = `${item.colorway}` + (size ? ` · Size ${size}` : "");
+    const ship = method === "ship" && count ? P.shippingFee : 0;
+    $("slines").innerHTML = lines.map(l => `<div class="sline"><span>${l.qty} × ${P.items[l.item].name} (${l.size})</span><span>${money(P.price * l.qty)}</span></div>`).join("");
+    $("sub-label").textContent = `Subtotal (${count} ${count === 1 ? "shirt" : "shirts"})`;
+    $("subtotal").textContent = money(P.price * count);
     $("ship-label").textContent = method === "ship" ? "Shipping" : "Local pickup";
     $("ship-amt").textContent = ship ? money(ship) : "Free";
-    $("total").textContent = money(P.price + ship);
-    const link = size && item[method] && item[method][size];
-    if (link) { pay.href = P.gateUrl ? `${P.gateUrl}/go?item=${key}&to=${encodeURIComponent(link)}` : link; pay.removeAttribute("aria-disabled"); pay.textContent = `Continue to Payment · ${money(P.price + ship)}`; }
-    else { pay.href = "#"; pay.setAttribute("aria-disabled", "true"); pay.textContent = "Select a Size"; }
-    const u = new URL(location.href); if (size) u.searchParams.set("size", size); history.replaceState(null, "", u);
+    $("total").textContent = money(P.price * count + ship);
+    $("pay").textContent = `Continue to Secure Payment · ${money(P.price * count + ship)}`;
+    const blocked = lines.some(l => P.items[l.item].soldOut || (status && status[l.item] && status[l.item].soldOut));
+    $("pay").disabled = blocked || !P.apiUrl;
   }
-  sel.addEventListener("change", update);
-  document.querySelectorAll('input[name="method"]').forEach(r => r.addEventListener("change", update));
-  update();
+
+  document.querySelectorAll('input[name="method"]').forEach(r => r.addEventListener("change", render));
+
+  function showError(msg){ const e = $("error"); e.textContent = msg; e.hidden = !msg; }
+
+  $("pay").addEventListener("click", async () => {
+    showError("");
+    const name = $("name").value.trim(), email = $("email").value.trim(), phone = $("phone").value.trim();
+    if (name.length < 2) { showError("Please enter your full name."); $("name").focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError("Please enter a valid email so we can send your receipt."); $("email").focus(); return; }
+    if (phone.replace(/\D/g, "").length < 10) { showError("Please enter a valid 10-digit phone number."); $("phone").focus(); return; }
+    const btn = $("pay"); const label = btn.textContent;
+    btn.disabled = true; btn.textContent = "Taking you to secure payment…";
+    try {
+      const res = await fetch(`${P.apiUrl}/checkout`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: Cart.get(), method: document.querySelector('input[name="method"]:checked').value, name, email, phone })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.url) { location.href = data.url; return; }
+      if (data.soldOut) { status = status || {}; status[data.soldOut] = { soldOut: true }; }
+      showError(data.error || "Checkout is temporarily unavailable. Please try again in a minute.");
+    } catch (e) {
+      showError("We couldn't reach checkout. Please check your connection and try again.");
+    }
+    btn.textContent = label; render();
+  });
+
+  render();
+  if (P.apiUrl) fetch(`${P.apiUrl}/status`, { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(s => { if (s) { status = s; render(); } }).catch(() => {});
 })();
 </script>
 </body>
