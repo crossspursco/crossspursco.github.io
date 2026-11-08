@@ -7,7 +7,7 @@ window.PRODUCTS = {
   shippingFee: 6,
   pickupPlace: "McAllen or Edinburg, TX",
   limitPerShirt: 60,                        // max preorders per shirt (all sizes combined)
-  apiUrl: "",                               // checkout helper (Cloudflare Worker) address. Checkout needs this set.
+  apiUrl: "https://crossspurs-checkout.aldovjr03.workers.dev",                               // checkout helper (Cloudflare Worker) address. Checkout needs this set.
   // To close a shirt: set soldOut: true on it below and publish. The card and checkout lock.
   items: {
     men: {
