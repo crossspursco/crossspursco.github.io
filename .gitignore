@@ -1,0 +1,5 @@
+# Never publish tool caches or local files
+.wrangler/
+node_modules/
+*.log
+.DS_Store
